@@ -15,6 +15,9 @@ public class LeaveApproval {
     @Column(name = "SRL_NUM")
     private Long serialNumber;
 
+    @Column(name = "REPORT_HEADER_ID")
+    private String headerId;
+
     @Column(name = "NTF_RESPONDER")
     private String responderName;
 

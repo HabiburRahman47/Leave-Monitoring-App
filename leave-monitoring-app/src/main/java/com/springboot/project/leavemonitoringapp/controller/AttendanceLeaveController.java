@@ -1,15 +1,16 @@
 package com.springboot.project.leavemonitoringapp.controller;
 
-import com.springboot.project.leavemonitoringapp.model.AttendanceLeave;
-import com.springboot.project.leavemonitoringapp.model.LeaveApproval;
+import com.springboot.project.leavemonitoringapp.model.*;
 import com.springboot.project.leavemonitoringapp.service.AttendanceLeaveService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 @RestController
@@ -21,24 +22,28 @@ public class AttendanceLeaveController {
     public List<AttendanceLeave> getAttendanceLeaveRecord(String status){
         return attendanceLeaveService.getAttendanceLeaveRecord(status);
     }
-    @GetMapping("/leave-approval-records")
-    public List<LeaveApproval> getLeaveAttendanceRecords(){
-        return attendanceLeaveService.getLeaveApprovalRecord("16439");
+    @GetMapping("/leave-approval-records/{headerId}")
+    public List<LeaveApproval> getLeaveAttendanceRecords(@PathVariable String headerId){
+        return attendanceLeaveService.getLeaveApprovalRecord(headerId);
     }
-//    @GetMapping("/leave-approval-records")
-//    public List<LeaveApproval> getLeaveAttendanceRecords(){
-//        List<AttendanceLeave> attendanceLeaveList = attendanceLeaveService.getAttendanceLeaveRecord("");
-//        List<LeaveApproval> leaveApprovalList = new ArrayList<>();
-//        for (AttendanceLeave attendanceLeave: attendanceLeaveList){
-//            String headerId = String.valueOf(attendanceLeave.getReportHeaderId());
-//            List<LeaveApproval> leaveApproval = attendanceLeaveService.getLeaveApprovalRecord(headerId);
-//            leaveApprovalList.addAll(leaveApproval);
-//        }
-//        return leaveApprovalList;
-//    }
 
     @GetMapping("/leave-issues")
-    public void getLeaveIssues(){
-         attendanceLeaveService.getLeaveIssue();
+    public Map<String,List<ApprovalHistory>> getLeaveIssues(){
+         return attendanceLeaveService.getLeaveIssue();
+    }
+
+    @GetMapping("/leave-data")
+    public Map<String,List<LeaveApproval>> getLeaveData(){
+        return attendanceLeaveService.getLeaveData();
+    }
+
+    @GetMapping("/pfLoan-info")
+    public Map<String, PFLoan> getPFLoan(){
+        return attendanceLeaveService.getPfLoanByEmpId();
+    }
+
+    @GetMapping("/leave-approval/{id}")
+    public List<ApprovalHistory> getLeaveApproval(@PathVariable String id){
+        return attendanceLeaveService.getLeaveArppoval(id);
     }
 }
